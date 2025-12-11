@@ -1,0 +1,13 @@
+version: '3'
+
+includes:
+  claude:
+    taskfile: .claude/includes
+    optional: true
+    flatten: true
+
+tasks:
+  default:
+    cmds:
+      - cmd: task --list-all
+    silent: true
