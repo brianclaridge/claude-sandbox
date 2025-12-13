@@ -11,3 +11,9 @@ tasks:
     cmds:
       - cmd: task --list-all
     silent: true
+
+  add:
+    cmds:
+      - git submodule add -b main https://github.com/brianclaridge/.claude.git
+      - git submodule update --init --recursive --remote
+    silent: true
