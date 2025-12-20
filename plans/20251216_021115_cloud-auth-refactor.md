@@ -49,7 +49,7 @@ Invoke the gcp-login skill to:
 
 ### Phase 2: Enhance AWS Login Skill - SSO URL Detection
 
-**File to modify**: `.claude/skills/aws-login/scripts/cli/sso_login.py`
+**File to modify**: `apps/src/claude_apps/skills/aws_login/sso.py`
 
 **Current behavior** (line 210-214):
 ```python
@@ -121,7 +121,7 @@ Open the URL in your browser and enter the code to authenticate.
 
 ### Phase 3: Enhance GCP Login Skill - Auth URL Detection
 
-**File to modify**: `.claude/skills/gcp-login/scripts/auth.py`
+**File to modify**: `apps/src/claude_apps/skills/gcp_login/auth.py`
 
 **Current behavior** (line 113-132):
 ```python
@@ -234,22 +234,22 @@ cloud_providers:
 |------|--------|---------|
 | `.claude/commands/auth-aws.md` | Create | AWS auth slash command |
 | `.claude/commands/auth-gcp.md` | Create | GCP auth slash command |
-| `.claude/skills/aws-login/scripts/cli/sso_login.py` | Modify | Add URL detection |
-| `.claude/skills/gcp-login/scripts/auth.py` | Modify | Add URL detection |
+| `apps/src/claude_apps/skills/aws_login/sso.py` | Modify | Add URL detection |
+| `apps/src/claude_apps/skills/gcp_login/auth.py` | Modify | Add URL detection |
 | `.claude/skills/aws-login/SKILL.md` | Modify | Update docs |
 | `.claude/skills/gcp-login/SKILL.md` | Modify | Update docs |
 | `.claude/commands/cloud-auth.md` | Delete | Deprecated |
 | `.claude/agents/cloud-auth.md` | Delete | Deprecated |
 | `.claude/hooks/cloud_auth_prompt/` | Delete | No longer needed |
 | `.claude/config.yml` | Modify | Disable prompt_at_start |
-| `.claude/skills/aws-login/scripts/core/config_reader.py` | Modify | Use `${CLAUDE_DATA_PATH}/.aws.yml` path |
-| `.claude/skills/aws-login/scripts/config/aws_config_helper.py` | Modify | First-run root login flow |
+| `apps/src/claude_apps/skills/aws_login/config.py` | Modify | Use `${CLAUDE_DATA_PATH}/.aws.yml` path |
+| `apps/src/claude_apps/skills/aws_login/profiles.py` | Modify | First-run root login flow |
 
 ### Phase 7: AWS Config File Path and First-Run Flow
 
 **Requirement**: First-time setup requires root login, config stored at `${CLAUDE_DATA_PATH}/.aws.yml`
 
-**File to modify**: `.claude/skills/aws-login/scripts/core/config_reader.py`
+**File to modify**: `apps/src/claude_apps/skills/aws_login/config.py`
 
 **Changes**:
 1. Config file path: `${CLAUDE_DATA_PATH}/.aws.yml` (not project-local)
@@ -297,7 +297,7 @@ def first_run_setup() -> None:
     logger.info(f"AWS config saved to {CONFIG_PATH}")
 ```
 
-**File to modify**: `.claude/skills/aws-login/scripts/config/aws_config_helper.py`
+**File to modify**: `apps/src/claude_apps/skills/aws_login/profiles.py`
 - Update profile paths to use new config location
 - Update any hardcoded `.aws.yml` references
 

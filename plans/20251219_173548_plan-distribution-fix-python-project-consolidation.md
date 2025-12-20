@@ -19,12 +19,12 @@
 - Clarify: Claude Code's random plan names are internal; Rule 040 naming applies to canonical copy
 
 #### 1.2 Fix plan_distributor Hook
-- **File**: `/workspace/.claude/hooks/plan_distributor/src/distributor.py`
+- **File**: `/workspace/.claude/apps/src/claude_apps/hooks/plan_distributor/distributor.py`
 - Change: Distribute ONLY to `${CLAUDE_PLANS_PATH}` (remove dual-location logic)
 - Add: Rename file to `YYYYMMDD_HHMMSS_<topic>.md` format
 
 #### 1.3 Fix plan_distributor Hook (parser.py)
-- **File**: `/workspace/.claude/hooks/plan_distributor/src/parser.py`
+- **File**: `/workspace/.claude/apps/src/claude_apps/hooks/plan_distributor/parser.py`
 - Change: `detect_project_roots()` returns single destination: `${CLAUDE_PLANS_PATH}`
 - Add: Extract topic from plan content for filename
 

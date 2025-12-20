@@ -12,9 +12,9 @@ Create a new skill `project-metadata-builder` that generates and maintains a com
 | `${CLAUDE_PROJECTS_YML_PATH}` | Project metadata registry (generated) |
 | `${CLAUDE_SKILLS_PATH}/project-metadata-builder/SKILL.md` | Skill definition |
 | `${CLAUDE_SKILLS_PATH}/project-metadata-builder/pyproject.toml` | Python dependencies |
-| `${CLAUDE_SKILLS_PATH}/project-metadata-builder/scripts/builder.py` | Main metadata builder |
-| `${CLAUDE_SKILLS_PATH}/project-metadata-builder/scripts/schema.py` | YAML schema definitions |
-| `${CLAUDE_SKILLS_PATH}/project-metadata-builder/scripts/collectors/` | Metadata collection modules |
+| `apps/src/claude_apps/skills/project_metadata_builder/builder.py` | Main metadata builder |
+| `apps/src/claude_apps/skills/project_metadata_builder/schema.py` | YAML schema definitions |
+| `apps/src/claude_apps/skills/project_metadata_builder/collectors/` | Metadata collection modules |
 
 ## Files to Modify
 

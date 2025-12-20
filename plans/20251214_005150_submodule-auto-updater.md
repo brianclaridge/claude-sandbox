@@ -34,14 +34,12 @@
 **Directory:** `.claude/hooks/submodule_auto_updater/` (CREATE)
 
 ```
-submodule_auto_updater/
-├── pyproject.toml
-└── src/
-    ├── __init__.py
-    ├── __main__.py
-    ├── updater.py        # Git fetch, compare, and update logic
-    ├── state_manager.py  # State file read/write
-    └── formatter.py      # Notification formatting
+apps/src/claude_apps/hooks/submodule_auto_updater/
+├── __init__.py
+├── __main__.py
+├── updater.py        # Git fetch, compare, and update logic
+├── state_manager.py  # State file read/write
+└── formatter.py      # Notification formatting
 ```
 
 ### Phase 2: Implement Core Logic
@@ -92,12 +90,11 @@ Add to UserPromptSubmit hooks array:
 
 | File | Action | Purpose |
 |------|--------|---------|
-| `.claude/hooks/submodule_auto_updater/pyproject.toml` | CREATE | Hook project config |
-| `.claude/hooks/submodule_auto_updater/src/__init__.py` | CREATE | Package init |
-| `.claude/hooks/submodule_auto_updater/src/__main__.py` | CREATE | Hook entry point |
-| `.claude/hooks/submodule_auto_updater/src/updater.py` | CREATE | Git fetch/update logic |
-| `.claude/hooks/submodule_auto_updater/src/state_manager.py` | CREATE | State file mgmt |
-| `.claude/hooks/submodule_auto_updater/src/formatter.py` | CREATE | Notification text |
+| `apps/src/claude_apps/hooks/submodule_auto_updater/__init__.py` | CREATE | Package init |
+| `apps/src/claude_apps/hooks/submodule_auto_updater/__main__.py` | CREATE | Hook entry point |
+| `apps/src/claude_apps/hooks/submodule_auto_updater/updater.py` | CREATE | Git fetch/update logic |
+| `apps/src/claude_apps/hooks/submodule_auto_updater/state_manager.py` | CREATE | State file mgmt |
+| `apps/src/claude_apps/hooks/submodule_auto_updater/formatter.py` | CREATE | Notification text |
 | `.claude/config/templates/claude_settings.json` | MODIFY | Register hook |
 
 ## State File Formats

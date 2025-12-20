@@ -15,7 +15,7 @@
 ## Medium Priority Issues (15)
 
 ### 21. Regex Compilation in Loops ✅
-**File:** `/workspace/.claude/skills/git-manager/scripts/message.py:111-122`
+**File:** `/workspace/.claude/apps/src/claude_apps/skills/git_manager/message.py:111-122`
 **Status:** FIXED - Pre-compiled SCOPE_PATTERNS at module level.
 
 ### 22. Inconsistent Rule Formatting ✅
@@ -27,7 +27,7 @@
 **Status:** FIXED - Added explicit definition of factual vs non-factual content.
 
 ### 24. Missing Config Module ✅
-**File:** `/workspace/.claude/hooks/session_context_injector/src/__main__.py:8`
+**File:** `/workspace/.claude/apps/src/claude_apps/hooks/session_context_injector/__main__.py:8`
 **Status:** VERIFIED - Module exists and works correctly.
 
 ### 25. Inconsistent Error Return Codes ✅
@@ -39,7 +39,7 @@
 **Status:** FIXED - Added docstrings to main(), setup_logger(), parse_args(), show_help() in hooks.
 
 ### 27. Missing Import in discovery.py ✅
-**File:** `/workspace/.claude/skills/aws-login/lib/discovery.py`
+**File:** `/workspace/.claude/apps/src/claude_apps/skills/aws_login/discovery.py`
 **Status:** FIXED - Added missing `import os`.
 
 ### 28. Hardcoded Pricing Data ✅
@@ -55,7 +55,7 @@
 **Status:** FIXED - Changed from opus to haiku.
 
 ### 31. Potential Unused AWS Util Imports ✅
-**File:** `/workspace/.claude/skills/aws-login/lib/`
+**File:** `/workspace/.claude/apps/src/claude_apps/skills/aws_login/`
 **Status:** FIXED - Removed duplicate `import sys` and unused `Any` import.
 
 ### 32. Double-Failure Error Logging ✅

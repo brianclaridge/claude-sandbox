@@ -29,28 +29,12 @@ Entry Points:
 ├── agents/
 │   └── cloud-auth-agent.md                 # NEW: Orchestrator agent
 ├── hooks/
-│   └── cloud_auth_prompt/                  # NEW: SessionStart hook
-│       ├── pyproject.toml
-│       └── src/
-│           ├── __main__.py
-│           ├── config_reader.py
-│           └── formatter.py
+│   └── cloud_auth_prompt/                  # Hook (now in apps/src/claude_apps/hooks/)
 ├── skills/
-│   ├── aws-login/                          # NEW: Move from ./aws/
-│   │   ├── SKILL.md
-│   │   ├── pyproject.toml
-│   │   └── scripts/                        # Existing Python modules
-│   │       ├── cli/sso_check.py
-│   │       ├── cli/sso_login.py
-│   │       ├── core/auth_helper.py
-│   │       └── ...
-│   └── gcp-login/                          # NEW: Convert from PowerShell
-│       ├── SKILL.md
-│       ├── pyproject.toml
-│       └── scripts/
-│           ├── auth.py
-│           ├── quota_project.py
-│           └── bucket_policy.py
+│   ├── aws-login/                          # SKILL.md only (Python in apps/src/claude_apps/skills/aws_login/)
+│   │   └── SKILL.md
+│   └── gcp-login/                          # SKILL.md only (Python in apps/src/claude_apps/skills/gcp_login/)
+│       └── SKILL.md
 └── scripts/
     └── gcloud-auth.ps1                     # DELETE: Replaced by gcp-login skill
 ```
@@ -138,16 +122,14 @@ cloud_providers:
 | `commands/cloud-auth.md` | /cloud-auth slash command |
 | `agents/cloud-auth-agent.md` | Orchestrator agent |
 | `hooks/cloud_auth_prompt/pyproject.toml` | Hook dependencies |
-| `hooks/cloud_auth_prompt/src/__main__.py` | Hook entry point |
-| `hooks/cloud_auth_prompt/src/config_reader.py` | Read cloud_providers |
-| `hooks/cloud_auth_prompt/src/formatter.py` | Generate hook output |
+| `apps/src/claude_apps/hooks/cloud_auth_prompt/__main__.py` | Hook entry point |
+| `apps/src/claude_apps/hooks/cloud_auth_prompt/config_reader.py` | Read cloud_providers |
+| `apps/src/claude_apps/hooks/cloud_auth_prompt/formatter.py` | Generate hook output |
 | `skills/aws-login/SKILL.md` | AWS skill definition |
 | `skills/aws-login/pyproject.toml` | AWS dependencies |
 | `skills/gcp-login/SKILL.md` | GCP skill definition |
 | `skills/gcp-login/pyproject.toml` | GCP dependencies |
-| `skills/gcp-login/scripts/auth.py` | GCP auth logic |
-| `skills/gcp-login/scripts/quota_project.py` | Project selection |
-| `skills/gcp-login/scripts/bucket_policy.py` | Optional IAM binding |
+| `apps/src/claude_apps/skills/gcp_login/auth.py` | GCP auth logic |
 
 ## Files to Modify
 
@@ -162,7 +144,7 @@ cloud_providers:
 
 | From | To |
 |------|-----|
-| `aws/*` | `skills/aws-login/scripts/` |
+| `aws/*` | `apps/src/claude_apps/skills/aws_login/` |
 
 ## Files to Delete
 

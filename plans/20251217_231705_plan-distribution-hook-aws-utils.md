@@ -48,11 +48,10 @@ Create a `PostToolUse` hook that triggers on `ExitPlanMode` to automatically dis
 
 | File | Purpose |
 |------|---------|
-| `hooks/plan_distributor/pyproject.toml` | Package config |
-| `hooks/plan_distributor/src/__init__.py` | Package init |
-| `hooks/plan_distributor/src/__main__.py` | Entry point |
-| `hooks/plan_distributor/src/parser.py` | Extract file paths from plan |
-| `hooks/plan_distributor/src/distributor.py` | Copy logic |
+| `apps/src/claude_apps/hooks/plan_distributor/__init__.py` | Package init |
+| `apps/src/claude_apps/hooks/plan_distributor/__main__.py` | Entry point |
+| `apps/src/claude_apps/hooks/plan_distributor/parser.py` | Extract file paths from plan |
+| `apps/src/claude_apps/hooks/plan_distributor/distributor.py` | Copy logic |
 
 ### Settings Update
 
@@ -117,16 +116,16 @@ def discover_resources(profile: str | None = None) -> list[ResourceSchema]:
 ```
 
 **Files to create**:
-- `/workspace/.claude/lib/aws_utils/services/lambda_svc.py`
-- `/workspace/.claude/lib/aws_utils/services/rds.py`
-- `/workspace/.claude/lib/aws_utils/services/route53.py`
-- `/workspace/.claude/lib/aws_utils/services/dynamodb.py`
-- `/workspace/.claude/lib/aws_utils/services/stepfunctions.py`
-- `/workspace/.claude/lib/aws_utils/services/sso.py`
+- `/workspace/.claude/apps/src/claude_apps/shared/aws_utils/services/lambda_svc.py`
+- `/workspace/.claude/apps/src/claude_apps/shared/aws_utils/services/rds.py`
+- `/workspace/.claude/apps/src/claude_apps/shared/aws_utils/services/route53.py`
+- `/workspace/.claude/apps/src/claude_apps/shared/aws_utils/services/dynamodb.py`
+- `/workspace/.claude/apps/src/claude_apps/shared/aws_utils/services/stepfunctions.py`
+- `/workspace/.claude/apps/src/claude_apps/shared/aws_utils/services/sso.py`
 
 ### 2. Add Pydantic Schemas
 
-**File**: `/workspace/.claude/lib/aws_utils/core/schemas.py`
+**File**: `/workspace/.claude/apps/src/claude_apps/shared/aws_utils/core/schemas.py`
 
 New schemas to add:
 ```python
@@ -199,7 +198,7 @@ class SSOAccount(BaseModel):
 
 ### 3. Update Exports
 
-**File**: `/workspace/.claude/lib/aws_utils/services/__init__.py`
+**File**: `/workspace/.claude/apps/src/claude_apps/shared/aws_utils/services/__init__.py`
 - Add imports for all new service modules
 
 **File**: `/workspace/.claude/lib/aws_utils/__init__.py`
@@ -208,16 +207,16 @@ class SSOAccount(BaseModel):
 
 ### 4. Refactor aws-login Skill
 
-**Source**: `/workspace/.claude/skills/aws-login/lib/sso_discovery.py`
-**Target**: `/workspace/.claude/lib/aws_utils/services/sso.py`
+**Source**: `/workspace/.claude/apps/src/claude_apps/skills/aws_login/sso_discovery.py`
+**Target**: `/workspace/.claude/apps/src/claude_apps/shared/aws_utils/services/sso.py`
 
 **Changes to aws-login**:
-- Update `/workspace/.claude/skills/aws-login/lib/discovery.py` to import from aws_utils
+- Update `/workspace/.claude/apps/src/claude_apps/skills/aws_login/discovery.py` to import from aws_utils
 - Delete original `sso_discovery.py` after migration
 
 ### 5. Update AccountInventory Schema
 
-**File**: `/workspace/.claude/lib/aws_utils/core/schemas.py`
+**File**: `/workspace/.claude/apps/src/claude_apps/shared/aws_utils/core/schemas.py`
 
 Extend `AccountInventory` to include new resource types:
 ```python
@@ -267,18 +266,18 @@ Test coverage for:
 
 | Action | File |
 |--------|------|
-| CREATE | `lib/aws_utils/services/lambda_svc.py` |
-| CREATE | `lib/aws_utils/services/rds.py` |
-| CREATE | `lib/aws_utils/services/route53.py` |
-| CREATE | `lib/aws_utils/services/dynamodb.py` |
-| CREATE | `lib/aws_utils/services/stepfunctions.py` |
-| CREATE | `lib/aws_utils/services/sso.py` |
-| CREATE | `lib/aws_utils/tests/test_new_services.py` |
-| MODIFY | `lib/aws_utils/core/schemas.py` |
-| MODIFY | `lib/aws_utils/services/__init__.py` |
-| MODIFY | `lib/aws_utils/__init__.py` |
-| MODIFY | `skills/aws-login/lib/discovery.py` |
-| DELETE | `skills/aws-login/lib/sso_discovery.py` |
+| CREATE | `apps/src/claude_apps/shared/aws_utils/services/lambda_svc.py` |
+| CREATE | `apps/src/claude_apps/shared/aws_utils/services/rds.py` |
+| CREATE | `apps/src/claude_apps/shared/aws_utils/services/route53.py` |
+| CREATE | `apps/src/claude_apps/shared/aws_utils/services/dynamodb.py` |
+| CREATE | `apps/src/claude_apps/shared/aws_utils/services/stepfunctions.py` |
+| CREATE | `apps/src/claude_apps/shared/aws_utils/services/sso.py` |
+| CREATE | `apps/src/claude_apps/shared/aws_utils/tests/test_new_services.py` |
+| MODIFY | `apps/src/claude_apps/shared/aws_utils/core/schemas.py` |
+| MODIFY | `apps/src/claude_apps/shared/aws_utils/services/__init__.py` |
+| MODIFY | `apps/src/claude_apps/shared/aws_utils/__init__.py` |
+| MODIFY | `apps/src/claude_apps/skills/aws_login/discovery.py` |
+| DELETE | `apps/src/claude_apps/skills/aws_login/sso_discovery.py` |
 
 ---
 

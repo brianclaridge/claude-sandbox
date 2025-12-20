@@ -10,33 +10,25 @@
 
 ```
 .claude/
-├── lib/
-│   └── aws_inspector/              # NEW: Shared library
-│       ├── __init__.py             # Public API
-│       ├── pyproject.toml          # Dependencies
-│       ├── core/
-│       │   ├── __init__.py
-│       │   ├── session.py          # Boto3 session management
-│       │   └── schemas.py          # Pydantic models
-│       ├── services/
-│       │   ├── __init__.py
-│       │   ├── ec2.py              # VPC, subnet, IGW, NAT, EIP
-│       │   ├── s3.py               # S3 buckets
-│       │   ├── sqs.py              # SQS queues
-│       │   ├── sns.py              # SNS topics
-│       │   ├── ses.py              # SES identities
-│       │   └── organizations.py    # Org/account discovery
-│       └── inventory/
-│           ├── __init__.py
-│           ├── reader.py           # Load inventory files
-│           └── writer.py           # Save inventory files
-└── skills/
-    └── aws-login/
-        └── lib/
-            ├── __main__.py         # CLI (imports aws_inspector)
-            ├── config.py           # Auth config only
-            ├── sso.py              # Unchanged
-            └── profiles.py         # Unchanged
+├── apps/src/claude_apps/
+│   ├── shared/aws_utils/           # Shared library (consolidated)
+│   │   ├── __init__.py             # Public API
+│   │   ├── core/
+│   │   │   ├── session.py          # Boto3 session management
+│   │   │   └── schemas.py          # Pydantic models
+│   │   ├── services/
+│   │   │   ├── ec2.py, s3.py, sqs.py, sns.py, ses.py
+│   │   │   └── organizations.py    # Org/account discovery
+│   │   └── inventory/
+│   │       ├── reader.py           # Load inventory files
+│   │       └── writer.py           # Save inventory files
+│   └── skills/aws_login/
+│       ├── __main__.py             # CLI (imports aws_utils)
+│       ├── config.py               # Auth config only
+│       ├── sso.py                  # SSO login
+│       └── profiles.py             # Profile management
+└── skills/aws-login/               # SKILL.md only
+    └── SKILL.md
 ```
 
 ## Data Directory Structure
@@ -144,29 +136,25 @@ ses_identities:
 
 | File | Purpose |
 |------|---------|
-| `.claude/lib/aws_inspector/__init__.py` | Public API exports |
-| `.claude/lib/aws_inspector/pyproject.toml` | Dependencies (boto3, pydantic, loguru, pyyaml) |
-| `.claude/lib/aws_inspector/core/__init__.py` | Core module exports |
-| `.claude/lib/aws_inspector/core/session.py` | Boto3 session factory |
-| `.claude/lib/aws_inspector/core/schemas.py` | Pydantic models for inventory |
-| `.claude/lib/aws_inspector/services/__init__.py` | Service module exports |
-| `.claude/lib/aws_inspector/services/ec2.py` | VPC, subnet, IGW, NAT, EIP discovery |
-| `.claude/lib/aws_inspector/services/s3.py` | S3 bucket discovery |
-| `.claude/lib/aws_inspector/services/sqs.py` | SQS queue discovery |
-| `.claude/lib/aws_inspector/services/sns.py` | SNS topic discovery |
-| `.claude/lib/aws_inspector/services/ses.py` | SES identity discovery |
-| `.claude/lib/aws_inspector/services/organizations.py` | Org/account discovery |
-| `.claude/lib/aws_inspector/inventory/__init__.py` | Inventory module exports |
-| `.claude/lib/aws_inspector/inventory/reader.py` | Load inventory files |
-| `.claude/lib/aws_inspector/inventory/writer.py` | Save inventory files |
+| `apps/src/claude_apps/shared/aws_utils/__init__.py` | Public API exports |
+| `apps/src/claude_apps/shared/aws_utils/core/session.py` | Boto3 session factory |
+| `apps/src/claude_apps/shared/aws_utils/core/schemas.py` | Pydantic models for inventory |
+| `apps/src/claude_apps/shared/aws_utils/services/ec2.py` | VPC, subnet, IGW, NAT, EIP discovery |
+| `apps/src/claude_apps/shared/aws_utils/services/s3.py` | S3 bucket discovery |
+| `apps/src/claude_apps/shared/aws_utils/services/sqs.py` | SQS queue discovery |
+| `apps/src/claude_apps/shared/aws_utils/services/sns.py` | SNS topic discovery |
+| `apps/src/claude_apps/shared/aws_utils/services/ses.py` | SES identity discovery |
+| `apps/src/claude_apps/shared/aws_utils/services/organizations.py` | Org/account discovery |
+| `apps/src/claude_apps/shared/aws_utils/inventory/reader.py` | Load inventory files |
+| `apps/src/claude_apps/shared/aws_utils/inventory/writer.py` | Save inventory files |
 
 ### Modified Files (aws-login skill)
 
 | File | Changes |
 |------|---------|
-| `skills/aws-login/lib/config.py` | Auth-only config, remove VPC logic |
-| `skills/aws-login/lib/discovery.py` | Import from aws_inspector, thin wrapper |
-| `skills/aws-login/lib/__main__.py` | --skip-resources flag, use aws_inspector |
+| `apps/src/claude_apps/skills/aws_login/config.py` | Auth-only config, remove VPC logic |
+| `apps/src/claude_apps/skills/aws_login/discovery.py` | Import from aws_utils, thin wrapper |
+| `apps/src/claude_apps/skills/aws_login/__main__.py` | --skip-resources flag, use aws_utils |
 | `skills/aws-login/SKILL.md` | v4.0 schema documentation |
 
 ## Implementation Phases

@@ -19,16 +19,16 @@ Analysis identified **47 issues** across 4 categories:
 ## Critical Issues
 
 ### 1. Environment Variable Expansion Bug
-**File:** `/workspace/.claude/skills/project-metadata-builder/scripts/config.py:66`
+**File:** `/workspace/.claude/apps/src/claude_apps/skills/project_metadata_builder/config.py:66`
 **Issue:** `get_projects_file_path()` uses `os.path.expanduser()` but NOT `os.path.expandvars()`, preventing `${CLAUDE_PROJECTS_YML_PATH}` expansion.
 **Impact:** Projects registry file never created at expected location.
 **Fix:** Add `os.path.expandvars()` call before `expanduser()`.
 
 ### 2. Silent Exception Handlers in Hooks
 **Files:**
-- `/workspace/.claude/hooks/logger/src/__main__.py:22-23,53-54`
-- `/workspace/.claude/hooks/logger/src/writer.py:9-10,41-42`
-- `/workspace/.claude/hooks/playwright_healer/src/logger.py:95-96,115-116`
+- `/workspace/.claude/apps/src/claude_apps/hooks/logger/__main__.py:22-23,53-54`
+- `/workspace/.claude/apps/src/claude_apps/hooks/logger/writer.py:9-10,41-42`
+- `/workspace/.claude/apps/src/claude_apps/hooks/playwright_healer/logger.py:95-96,115-116`
 
 **Issue:** Bare `except Exception: pass` swallows all errors without logging.
 **Impact:** Hook failures are invisible; system appears functional but isn't.
@@ -59,13 +59,13 @@ Analysis identified **47 issues** across 4 categories:
 **Fix:** Update references to `project-analysis` or create missing agent.
 
 ### 6. Hardcoded Paths in Playwright Automation
-**File:** `/workspace/.claude/skills/playwright-automation/scripts/video_recorder.py:20,24`
+**File:** `/workspace/.claude/apps/src/claude_apps/skills/playwright_automation/video_recorder.py:20,24`
 **Issue:** Absolute paths `/workspace/.claude/.data/...` hardcoded.
 **Impact:** Non-portable across environments.
 **Fix:** Use environment variables or config-based paths.
 
 ### 7. Subprocess Exception Missing
-**File:** `/workspace/.claude/skills/playwright-automation/scripts/video_recorder.py:43-59`
+**File:** `/workspace/.claude/apps/src/claude_apps/skills/playwright_automation/video_recorder.py:43-59`
 **Issue:** `subprocess.run(..., check=True)` without try/except.
 **Impact:** Unhandled `CalledProcessError` crashes.
 **Fix:** Add exception handling for ffmpeg conversion.
@@ -90,16 +90,16 @@ Analysis identified **47 issues** across 4 categories:
 
 ### 10. Duplicate Subprocess Error Handling
 **Files:**
-- `/workspace/.claude/skills/aws-login/lib/sso.py:66-124`
-- `/workspace/.claude/skills/gcp-login/lib/auth.py:139-173`
+- `/workspace/.claude/apps/src/claude_apps/skills/aws_login/sso.py:66-124`
+- `/workspace/.claude/apps/src/claude_apps/skills/gcp_login/auth.py:139-173`
 
 **Fix:** Extract to shared utility in `/workspace/.claude/lib/`.
 
 ### 11. Unsafe sys.path Manipulation
 **Files:**
-- `/workspace/.claude/skills/aws-login/lib/__main__.py:36-38`
-- `/workspace/.claude/skills/aws-login/lib/config.py:17-19`
-- `/workspace/.claude/skills/aws-login/lib/discovery.py:20-23`
+- `/workspace/.claude/apps/src/claude_apps/skills/aws_login/__main__.py:36-38`
+- `/workspace/.claude/apps/src/claude_apps/skills/aws_login/config.py:17-19`
+- `/workspace/.claude/apps/src/claude_apps/skills/aws_login/discovery.py:20-23`
 
 **Fix:** Use proper package imports or PYTHONPATH configuration.
 
@@ -129,23 +129,23 @@ Analysis identified **47 issues** across 4 categories:
 
 ### 16. Missing Hook Config Validation
 **Files:**
-- `/workspace/.claude/hooks/playwright_healer/src/detector.py:62`
-- `/workspace/.claude/hooks/session_context_injector/src/__main__.py:47`
-- `/workspace/.claude/hooks/rules_loader/src/loader.py:71-85`
+- `/workspace/.claude/apps/src/claude_apps/hooks/playwright_healer/detector.py:62`
+- `/workspace/.claude/apps/src/claude_apps/hooks/session_context_injector/__main__.py:47`
+- `/workspace/.claude/apps/src/claude_apps/hooks/rules_loader/loader.py:71-85`
 
 **Fix:** Add config schema validation on load.
 
 ### 17. Broad Exception Handlers in Skills
 **Files:**
-- `/workspace/.claude/skills/project-metadata-builder/scripts/builder.py:150,167,188,196`
-- `/workspace/.claude/skills/gomplate-manager/scripts/config.py:22`
+- `/workspace/.claude/apps/src/claude_apps/skills/project_metadata_builder/builder.py:150,167,188,196`
+- `/workspace/.claude/apps/src/claude_apps/skills/gomplate_manager/config.py:22`
 
 **Fix:** Catch specific exceptions (ValueError, FileNotFoundError, IOError).
 
 ### 18. Duplicate SSH Auth Check
 **Files:**
-- `/workspace/.claude/skills/git-manager/scripts/identity.py:57-103`
-- `/workspace/.claude/skills/git-manager/scripts/auth.py:85-98`
+- `/workspace/.claude/apps/src/claude_apps/skills/git_manager/identity.py:57-103`
+- `/workspace/.claude/apps/src/claude_apps/skills/git_manager/auth.py:85-98`
 
 **Fix:** Consolidate into single function.
 
@@ -163,7 +163,7 @@ Analysis identified **47 issues** across 4 categories:
 ## Medium Priority Issues
 
 ### 21. Regex Compilation in Loops
-**File:** `/workspace/.claude/skills/git-manager/scripts/message.py:111-122`
+**File:** `/workspace/.claude/apps/src/claude_apps/skills/git_manager/message.py:111-122`
 **Fix:** Pre-compile patterns at module level.
 
 ### 22. Inconsistent Rule Formatting
@@ -175,7 +175,7 @@ Analysis identified **47 issues** across 4 categories:
 **Fix:** Define what constitutes "factual" vs "opinion" output.
 
 ### 24. Missing Config Module
-**File:** `/workspace/.claude/hooks/session_context_injector/src/__main__.py:8`
+**File:** `/workspace/.claude/apps/src/claude_apps/hooks/session_context_injector/__main__.py:8`
 **Issue:** Imports `.config` which may not exist.
 **Fix:** Verify config module exists or create it.
 
@@ -219,8 +219,8 @@ Analysis identified **47 issues** across 4 categories:
 | # | Issue | File | Status |
 |---|-------|------|--------|
 | 1 | Environment variable expansion bug | `config.py:66` | ✅ Complete |
-| 2 | Silent exception handlers (logger hook) | `logger/src/*.py` | ✅ Complete |
-| 3 | Silent exception handlers (playwright_healer) | `playwright_healer/src/logger.py` | ✅ Complete |
+| 2 | Silent exception handlers (logger hook) | `apps/src/claude_apps/hooks/logger/*.py` | ✅ Complete |
+| 3 | Silent exception handlers (playwright_healer) | `apps/src/claude_apps/hooks/playwright_healer/logger.py` | ✅ Complete |
 | 4 | Missing tools declarations | `browser-automation.md`, `hello-world.md` | ✅ Complete |
 | 5 | Non-existent agent reference | `project-metadata-builder/SKILL.md` | ✅ Complete |
 | 6 | Hardcoded paths in playwright | `video_recorder.py:20,24` | ✅ Complete |
@@ -238,7 +238,7 @@ Analysis identified **47 issues** across 4 categories:
 |---|-------|---------|--------|
 | 9 | Logging library inconsistency | Multiple skills | Deferred |
 | 10 | Duplicate subprocess handling | `aws-login/`, `gcp-login/` | Deferred |
-| 11 | Unsafe sys.path manipulation | `aws-login/lib/*.py` | ✅ Complete |
+| 11 | Unsafe sys.path manipulation | `apps/src/claude_apps/skills/aws_login/*.py` | ✅ Complete |
 | 12 | Agent color conflicts | 5 agent files | ✅ Complete |
 | 13 | Inconsistent field naming (gitops) | `gitops.md:4` | ✅ Complete |
 | 14 | Tool mismatches (agent vs skill) | `gomplate-manager`, `taskfile-manager` | ✅ Complete |
@@ -265,12 +265,12 @@ Medium (15) + Low (12) priority items to be reviewed.
 ## Files to Modify (Critical + High Priority)
 
 ```
-.claude/skills/project-metadata-builder/scripts/config.py
+.claude/apps/src/claude_apps/skills/project_metadata_builder/config.py
 .claude/skills/project-metadata-builder/SKILL.md
-.claude/skills/playwright-automation/scripts/video_recorder.py
-.claude/hooks/logger/src/__main__.py
-.claude/hooks/logger/src/writer.py
-.claude/hooks/playwright_healer/src/logger.py
+.claude/apps/src/claude_apps/skills/playwright_automation/video_recorder.py
+.claude/apps/src/claude_apps/hooks/logger/__main__.py
+.claude/apps/src/claude_apps/hooks/logger/writer.py
+.claude/apps/src/claude_apps/hooks/playwright_healer/logger.py
 .claude/agents/browser-automation.md
 .claude/agents/hello-world.md
 .claude/agents/gitops.md

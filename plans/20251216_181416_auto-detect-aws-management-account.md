@@ -83,11 +83,11 @@ def discover_available_accounts(sso_start_url: str, region: str) -> list[dict]:
 
 | File | Change |
 |------|--------|
-| `.claude/lib/aws_inspector/aws_inspector/services/organizations.py` | Extract `MasterAccountId` from API response |
-| `.claude/skills/aws-login/lib/discovery.py` | Warn if env var doesn't match API value |
-| `.claude/skills/aws-login/lib/config.py` | Make `AWS_ROOT_ACCOUNT_ID` optional with fallback |
-| `.claude/skills/aws-login/lib/__main__.py` | Use auto-discovered management account |
-| `.claude/skills/aws-login/lib/sso_discovery.py` | **NEW**: SSO device auth flow for account discovery |
+| `apps/src/claude_apps/shared/aws_utils/services/organizations.py` | Extract `MasterAccountId` from API response |
+| `apps/src/claude_apps/skills/aws_login/discovery.py` | Warn if env var doesn't match API value |
+| `apps/src/claude_apps/skills/aws_login/config.py` | Make `AWS_ROOT_ACCOUNT_ID` optional with fallback |
+| `apps/src/claude_apps/skills/aws_login/__main__.py` | Use auto-discovered management account |
+| `apps/src/claude_apps/skills/aws_login/sso_discovery.py` | **NEW**: SSO device auth flow for account discovery |
 
 ## Phased Approach
 
